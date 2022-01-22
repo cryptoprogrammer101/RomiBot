@@ -35,6 +35,9 @@ public class RobotContainer {
   // Assumes a gamepad plugged into channnel 0
   private final Joystick m_controller = new Joystick(0);
 
+  // Assumes a gamepad plugged into channnel 0
+  private final Joystick m_controller2 = new Joystick(1);
+
   // Create SmartDashboard chooser for autonomous routines
   private final SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -114,7 +117,55 @@ public class RobotContainer {
     
     new JoystickButton(m_controller, XboxController.Button.kX.value)
     .whenPressed(getArcadeDriveRevCommand())
-    .whenReleased(getArcadeDriveCommand());  
+    .whenReleased(getArcadeDriveCommand());
+
+    // controller 2 ---
+    
+    new JoystickButton(m_controller2, XboxController.Button.kY.value)
+    .whenPressed(
+      () -> {
+        m_onboardIO.setYellowLed(true);
+      },
+      m_onboardIO 
+    )
+    .whenReleased(
+      () -> {
+        m_onboardIO.setYellowLed(false);
+      },
+      m_onboardIO
+    );
+
+    new JoystickButton(m_controller2, XboxController.Button.kA.value)
+    .whenPressed(
+      () -> {
+        m_onboardIO.setGreenLed(true);
+      },
+      m_onboardIO 
+    )
+    .whenReleased(
+      () -> {
+        m_onboardIO.setGreenLed(false);
+      },
+      m_onboardIO
+    );
+
+    new JoystickButton(m_controller2, XboxController.Button.kB.value)
+    .whenPressed(
+      () -> {
+        m_onboardIO.setRedLed(true);
+      },
+      m_onboardIO 
+    )
+    .whenReleased(
+      () -> {
+        m_onboardIO.setRedLed(false);
+      },
+      m_onboardIO
+    );  
+    
+    new JoystickButton(m_controller2, XboxController.Button.kX.value)
+    .whenPressed(getArcadeDriveRevCommand())
+    .whenReleased(getArcadeDriveCommand());
     
     // Example of how to use the onboard IO
     Button onboardButtonA = new Button(m_onboardIO::getButtonAPressed);
@@ -144,12 +195,12 @@ public class RobotContainer {
    */
   public Command getArcadeDriveCommand() {
     return new ArcadeDrive(
-        m_drivetrain, () -> m_controller.getRawAxis(1), () -> m_controller.getRawAxis(2) - m_controller.getRawAxis(3));
+        m_drivetrain, () -> m_controller.getRawAxis(1) + m_controller2.getRawAxis(1), () -> m_controller.getRawAxis(3) - m_controller.getRawAxis(2) + m_controller2.getRawAxis(3) - m_controller2.getRawAxis(2));
   }
 
   public Command getArcadeDriveRevCommand() {
     return new ArcadeDriveRev(
-        m_drivetrain, () -> m_controller.getRawAxis(1), () -> m_controller.getRawAxis(2) - m_controller.getRawAxis(3));
-  }
+      m_drivetrain, () -> m_controller.getRawAxis(1) + m_controller2.getRawAxis(1), () -> m_controller.getRawAxis(3) - m_controller.getRawAxis(2) + m_controller2.getRawAxis(3) - m_controller2.getRawAxis(2));
+    }
 
 }
