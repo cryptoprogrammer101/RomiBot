@@ -55,6 +55,11 @@ public class OnBoardIO extends SubsystemBase {
     } else {
       m_redLed = new DigitalOutput(2);
     }
+
+    setGreenLed(false);
+    setRedLed(false);
+    setYellowLed(false);
+
   }
 
   /** Gets if the A button is pressed. */

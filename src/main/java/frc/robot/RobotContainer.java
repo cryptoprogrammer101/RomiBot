@@ -69,51 +69,17 @@ public class RobotContainer {
     // is scheduled over it.
     m_drivetrain.setDefaultCommand(getArcadeDriveCommand());
 
-    m_onboardIO.setGreenLed(false);
-    m_onboardIO.setRedLed(false);
-    m_onboardIO.setYellowLed(false);
-
-    new JoystickButton(m_controller, XboxController.Button.kY.value)
-    .whenPressed(
-      () -> {
-        m_onboardIO.setYellowLed(true);
-      },
-      m_onboardIO 
-    )
-    .whenReleased(
-      () -> {
-        m_onboardIO.setYellowLed(false);
-      },
-      m_onboardIO
-    );
-
     new JoystickButton(m_controller, XboxController.Button.kA.value)
-    .whenPressed(
-      () -> {
-        m_onboardIO.setGreenLed(true);
-      },
-      m_onboardIO 
-    )
-    .whenReleased(
-      () -> {
-        m_onboardIO.setGreenLed(false);
-      },
-      m_onboardIO
-    );
+    .whenPressed(() -> m_onboardIO.setGreenLed(true), m_onboardIO)
+    .whenReleased(() -> m_onboardIO.setGreenLed(true), m_onboardIO);
 
     new JoystickButton(m_controller, XboxController.Button.kB.value)
-    .whenPressed(
-      () -> {
-        m_onboardIO.setRedLed(true);
-      },
-      m_onboardIO 
-    )
-    .whenReleased(
-      () -> {
-        m_onboardIO.setRedLed(false);
-      },
-      m_onboardIO
-    );  
+    .whenPressed(() -> m_onboardIO.setRedLed(true), m_onboardIO)
+    .whenReleased(() -> m_onboardIO.setRedLed(true), m_onboardIO);  
+
+    new JoystickButton(m_controller, XboxController.Button.kY.value)
+    .whenPressed(() -> m_onboardIO.setYellowLed(true), m_onboardIO)
+    .whenReleased(() -> m_onboardIO.setYellowLed(true), m_onboardIO);  
     
     new JoystickButton(m_controller, XboxController.Button.kX.value)
     .whenPressed(getArcadeDriveRevCommand())
@@ -121,47 +87,17 @@ public class RobotContainer {
 
     // controller 2 ---
     
-    new JoystickButton(m_controller2, XboxController.Button.kY.value)
-    .whenPressed(
-      () -> {
-        m_onboardIO.setYellowLed(true);
-      },
-      m_onboardIO 
-    )
-    .whenReleased(
-      () -> {
-        m_onboardIO.setYellowLed(false);
-      },
-      m_onboardIO
-    );
-
     new JoystickButton(m_controller2, XboxController.Button.kA.value)
-    .whenPressed(
-      () -> {
-        m_onboardIO.setGreenLed(true);
-      },
-      m_onboardIO 
-    )
-    .whenReleased(
-      () -> {
-        m_onboardIO.setGreenLed(false);
-      },
-      m_onboardIO
-    );
+    .whenPressed(() -> m_onboardIO.setGreenLed(true), m_onboardIO)
+    .whenReleased(() -> m_onboardIO.setGreenLed(true), m_onboardIO);
 
     new JoystickButton(m_controller2, XboxController.Button.kB.value)
-    .whenPressed(
-      () -> {
-        m_onboardIO.setRedLed(true);
-      },
-      m_onboardIO 
-    )
-    .whenReleased(
-      () -> {
-        m_onboardIO.setRedLed(false);
-      },
-      m_onboardIO
-    );  
+    .whenPressed(() -> m_onboardIO.setRedLed(true), m_onboardIO)
+    .whenReleased(() -> m_onboardIO.setRedLed(true), m_onboardIO);  
+
+    new JoystickButton(m_controller2, XboxController.Button.kY.value)
+    .whenPressed(() -> m_onboardIO.setYellowLed(true), m_onboardIO)
+    .whenReleased(() -> m_onboardIO.setYellowLed(true), m_onboardIO);  
     
     new JoystickButton(m_controller2, XboxController.Button.kX.value)
     .whenPressed(getArcadeDriveRevCommand())
