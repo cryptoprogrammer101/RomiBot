@@ -88,7 +88,7 @@ public class RomiGyro {
   }
 
   /**
-   * Get the currently reported angle around the X-axis.
+   * Get the currently reported angle around the Y-axis.
    *
    * @return current angle around Y-axis in degrees
    */

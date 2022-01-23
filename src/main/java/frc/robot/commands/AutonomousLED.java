@@ -26,10 +26,14 @@ public class AutonomousLED extends SequentialCommandGroup {
             io.setYellowLed(true);
           }, io),
         new WaitCommand(3),
-        new DriveDistance(-0.5, 10, drivetrain),
-        new TurnDegrees(-0.5, 180, drivetrain),
-        new DriveDistance(-0.5, 10, drivetrain),
-        new TurnDegrees(0.5, 180, drivetrain),
+        new DriveDistance(0.5, 20, drivetrain),
+        new TurnDegrees(0.5, 90, drivetrain),
+        new DriveDistance(0.5, 20, drivetrain),
+        new TurnDegrees(0.5, 90, drivetrain),
+        new DriveDistance(0.5, 20, drivetrain),
+        new TurnDegrees(0.5, 90, drivetrain),
+        new DriveDistance(0.5, 20, drivetrain),
+        new TurnDegrees(0.5, 90, drivetrain),
         new InstantCommand(
           () -> {
             io.setGreenLed(false);
