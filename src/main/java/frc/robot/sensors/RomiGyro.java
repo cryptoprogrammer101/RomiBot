@@ -33,6 +33,8 @@ public class RomiGyro {
       m_simAngleY = gyroSimDevice.createDouble("angle_y", Direction.kInput, 0.0);
       m_simAngleZ = gyroSimDevice.createDouble("angle_z", Direction.kInput, 0.0);
     }
+    //System.out.println("VALUE OF simAngleZ: " + m_simAngleZ.get());
+
   }
 
   /**
