@@ -12,6 +12,7 @@ import frc.robot.commands.ArcadeDriveRev;
 import frc.robot.commands.AutonomousDistance;
 import frc.robot.commands.AutonomousLED;
 import frc.robot.commands.AutonomousTime;
+import frc.robot.commands.DriveSquareGyro;
 import frc.robot.sensors.RomiGyro;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.OnBoardIO;
@@ -19,8 +20,6 @@ import frc.robot.subsystems.OnBoardIO.ChannelMode;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
-import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
@@ -106,18 +105,13 @@ public class RobotContainer {
     new JoystickButton(m_controller2, XboxController.Button.kLeftBumper.value)
     .whenPressed(getArcadeDriveRevCommand())
     .whenReleased(getArcadeDriveCommand());
-    
-    // Example of how to use the onboard IO
-    Button onboardButtonA = new Button(m_onboardIO::getButtonAPressed);
-    onboardButtonA
-        .whenActive(new PrintCommand("Button A Pressed"))
-        .whenInactive(new PrintCommand("Button A Released"));
 
     // Setup SmartDashboard options
     
-    m_chooser.setDefaultOption("Auto Routine LED", new AutonomousLED(m_drivetrain, m_onboardIO));
-    m_chooser.addOption("Auto Routine Distance", new AutonomousDistance(m_drivetrain));
+    m_chooser.setDefaultOption("Auto Routine Distance", new AutonomousDistance(m_drivetrain));
+    m_chooser.addOption("Auto Routine LED", new AutonomousLED(m_drivetrain, m_onboardIO));
     m_chooser.addOption("Auto Routine Time", new AutonomousTime(m_drivetrain));
+    m_chooser.addOption("Auto Routine Square", new DriveSquareGyro(m_drivetrain));
     SmartDashboard.putData(m_chooser);
   }
 
@@ -140,13 +134,22 @@ public class RobotContainer {
    * @return the command to run in teleop
    */
   public Command getArcadeDriveCommand() {
+    // return new ArcadeDrive(
+    //     m_drivetrain, () -> m_controller.getRawAxis(1) + m_controller2.getRawAxis(1), 
+    //     () -> m_controller.getRawAxis(3) - m_controller.getRawAxis(2) + m_controller2.getRawAxis(3) - m_controller2.getRawAxis(2));
     return new ArcadeDrive(
-        m_drivetrain, () -> m_controller.getRawAxis(1) + m_controller2.getRawAxis(1), () -> m_controller.getRawAxis(3) - m_controller.getRawAxis(2) + m_controller2.getRawAxis(3) - m_controller2.getRawAxis(2));
+      m_drivetrain, () -> m_controller.getRawAxis(1) + m_controller2.getRawAxis(1), 
+      () -> m_controller.getRawAxis(0) + m_controller2.getRawAxis(0));
+
   }
 
   public Command getArcadeDriveRevCommand() {
+    // return new ArcadeDriveRev(
+    //   m_drivetrain, () -> m_controller.getRawAxis(1) + m_controller2.getRawAxis(1), 
+    //   () -> m_controller.getRawAxis(3) - m_controller.getRawAxis(2) + m_controller2.getRawAxis(3) - m_controller2.getRawAxis(2));
     return new ArcadeDriveRev(
-      m_drivetrain, () -> m_controller.getRawAxis(1) + m_controller2.getRawAxis(1), () -> m_controller.getRawAxis(3) - m_controller.getRawAxis(2) + m_controller2.getRawAxis(3) - m_controller2.getRawAxis(2));
-    }
+      m_drivetrain, () -> m_controller.getRawAxis(1) + m_controller2.getRawAxis(1), 
+      () -> m_controller.getRawAxis(0) + m_controller2.getRawAxis(0));
+  }
 
 }

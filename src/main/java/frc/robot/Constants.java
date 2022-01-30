@@ -12,4 +12,11 @@ package frc.robot;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class Constants {}
+public final class Constants {
+    // gyro adjustment factor
+    public final static double GAIN = 0.1;
+    // gyro margin for turning
+    public final static double OFFSET = 40;
+    // multiplier for precision
+    public final static double MULTIPLIER = 0.5;
+}
