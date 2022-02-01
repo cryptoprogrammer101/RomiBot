@@ -5,7 +5,10 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.OnBoardIO;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class DriveSquareGyro extends SequentialCommandGroup {
   /**
@@ -14,7 +17,7 @@ public class DriveSquareGyro extends SequentialCommandGroup {
    *
    * @param drivetrain The drivetrain subsystem on which this command will run
    */
-  public DriveSquareGyro(Drivetrain drivetrain) {
+  public DriveSquareGyro(Drivetrain drivetrain, OnBoardIO io) {
     addCommands(
         new DriveStraight(0.5, 5, drivetrain),
         new TurnDegreesGyro(0.5, 90, drivetrain),
@@ -23,6 +26,34 @@ public class DriveSquareGyro extends SequentialCommandGroup {
         new DriveStraight(0.5, 5, drivetrain),
         new TurnDegreesGyro(0.5, 90, drivetrain),
         new DriveStraight(0.5, 5, drivetrain),
-        new TurnDegreesGyro(0.5, 90, drivetrain));
+        new TurnDegreesGyro(0.5, 90, drivetrain),
+        new InstantCommand(
+          () -> {
+            io.setRedLed(false);
+            io.setYellowLed(false);
+            io.setGreenLed(true);
+          }, io),
+        new WaitCommand(3),
+        new InstantCommand(
+          () -> {
+            io.setGreenLed(false);
+            io.setYellowLed(false);
+            io.setRedLed(true);
+          }, io),
+        new WaitCommand(3),
+        new InstantCommand(
+          () -> {
+            io.setGreenLed(false);
+            io.setRedLed(false);
+            io.setYellowLed(true);
+          }, io),
+        new WaitCommand(3),
+        new InstantCommand(
+          () -> {
+            io.setGreenLed(false);
+            io.setRedLed(false);
+            io.setYellowLed(false);
+          }, io)
+        );
   }
 }

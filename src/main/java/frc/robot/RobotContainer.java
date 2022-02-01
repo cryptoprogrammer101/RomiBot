@@ -111,7 +111,7 @@ public class RobotContainer {
     m_chooser.setDefaultOption("Auto Routine Distance", new AutonomousDistance(m_drivetrain));
     m_chooser.addOption("Auto Routine LED", new AutonomousLED(m_drivetrain, m_onboardIO));
     m_chooser.addOption("Auto Routine Time", new AutonomousTime(m_drivetrain));
-    m_chooser.addOption("Auto Routine Square", new DriveSquareGyro(m_drivetrain));
+    m_chooser.addOption("Auto Routine Square", new DriveSquareGyro(m_drivetrain, m_onboardIO));
     SmartDashboard.putData(m_chooser);
   }
 
