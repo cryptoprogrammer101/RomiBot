@@ -12,8 +12,7 @@ import frc.robot.commands.ArcadeDriveRev;
 import frc.robot.commands.AutonomousDistance;
 import frc.robot.commands.AutonomousLED;
 import frc.robot.commands.AutonomousTime;
-import frc.robot.commands.DriveSquareGyro;
-import frc.robot.sensors.RomiGyro;
+import frc.robot.commands.AutonomousSquare;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.OnBoardIO;
 import frc.robot.subsystems.OnBoardIO.ChannelMode;
@@ -32,8 +31,6 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Drivetrain m_drivetrain = new Drivetrain();
   private final OnBoardIO m_onboardIO = new OnBoardIO(ChannelMode.OUTPUT, ChannelMode.OUTPUT);
-
-  private RomiGyro m_gyro = new RomiGyro();
 
   // Assumes a gamepad plugged into channnel 0
   private final Joystick m_controller = new Joystick(0);
@@ -111,12 +108,8 @@ public class RobotContainer {
     m_chooser.setDefaultOption("Auto Routine Distance", new AutonomousDistance(m_drivetrain));
     m_chooser.addOption("Auto Routine LED", new AutonomousLED(m_drivetrain, m_onboardIO));
     m_chooser.addOption("Auto Routine Time", new AutonomousTime(m_drivetrain));
-    m_chooser.addOption("Auto Routine Square", new DriveSquareGyro(m_drivetrain, m_onboardIO));
+    m_chooser.addOption("Auto Routine Square", new AutonomousSquare(m_drivetrain, m_onboardIO));
     SmartDashboard.putData(m_chooser);
-  }
-
-  public double getAngleZ() {
-    return m_gyro.getAngleZ();
   }
 
   /**

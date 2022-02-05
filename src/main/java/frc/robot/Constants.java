@@ -14,9 +14,15 @@ package frc.robot;
  */
 public final class Constants {
     // gyro adjustment factor
-    public final static double GAIN = 0.1;
+    public final static double GAIN = 0.03;
     // gyro margin for turning
-    public final static double OFFSET = 40;
+    public final static double MARGIN = 40;
     // multiplier for precision
     public final static double MULTIPLIER = 0.5;
+    // turning sped
+    public final static double TURNSPEED = 0.5;
+    // set speed tolerance
+    public final static double SPEEDTOLERANCE = 1;
+    // set velocity tolerance
+    public final static double VELOCITYTOLERANCE = 5;
 }

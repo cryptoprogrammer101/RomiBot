@@ -10,23 +10,23 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
-public class DriveSquareGyro extends SequentialCommandGroup {
+public class AutonomousSquare extends SequentialCommandGroup {
   /**
    * Creates a new Autonomous Drive based on distance. This will drive out for a specified distance,
    * turn around and drive back.
    *
    * @param drivetrain The drivetrain subsystem on which this command will run
    */
-  public DriveSquareGyro(Drivetrain drivetrain, OnBoardIO io) {
+  public AutonomousSquare(Drivetrain drivetrain, OnBoardIO io) {
     addCommands(
-        new DriveStraight(0.5, 5, drivetrain),
-        new TurnDegreesGyro(0.5, 90, drivetrain),
-        new DriveStraight(0.5, 5, drivetrain),
-        new TurnDegreesGyro(0.5, 90, drivetrain),
-        new DriveStraight(0.5, 5, drivetrain),
-        new TurnDegreesGyro(0.5, 90, drivetrain),
-        new DriveStraight(0.5, 5, drivetrain),
-        new TurnDegreesGyro(0.5, 90, drivetrain),
+        new DriveStraightGyro(0.5, 5, drivetrain),
+        new TurnDegreesGyroPID(90, drivetrain),
+        new DriveStraightGyro(0.5, 5, drivetrain),
+        new TurnDegreesGyroPID(0.5, drivetrain),
+        new DriveStraightGyro(0.5, 5, drivetrain),
+        new TurnDegreesGyroPID(0.5, drivetrain),
+        new DriveStraightGyro(0.5, 5, drivetrain),
+        new TurnDegreesGyroPID(0.5, drivetrain),
         new InstantCommand(
           () -> {
             io.setRedLed(false);

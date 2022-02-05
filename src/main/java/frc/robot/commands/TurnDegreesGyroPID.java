@@ -6,12 +6,17 @@ package frc.robot.commands;
 
 import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class TurnDegreesGyro extends CommandBase {
+public class TurnDegreesGyroPID extends CommandBase {
   private final Drivetrain m_drive;
   private final double m_degrees;
   private final double m_speed;
+
+  private final PIDController m_controller = new PIDController(Constants.GAIN, 0, 0);
 
   /**
    * Creates a new TurnDegrees. This command will turn your robot for a desired rotation (in
@@ -21,10 +26,10 @@ public class TurnDegreesGyro extends CommandBase {
    * @param degrees Degrees to turn. Leverages encoders to compare distance.
    * @param drive The drive subsystem on which this command will run
    */
-  public TurnDegreesGyro(double speed, double degrees, Drivetrain drive) {
-    m_degrees = Math.abs(degrees);
+  public TurnDegreesGyroPID(double degrees, Drivetrain drive) {
+    m_degrees = degrees;
     m_drive = drive;
-    m_speed = speed;
+    m_speed = Constants.TURNSPEED;
     addRequirements(drive);
   }
 
@@ -41,15 +46,27 @@ public class TurnDegreesGyro extends CommandBase {
   @Override
   public void execute() {
 
-    // if gyro is within margin
-    if (Math.abs(m_drive.getGyroAngleZ()) + Constants.MARGIN > m_degrees) {
-      // slow down
-      m_drive.arcadeDrive(0, m_speed * Constants.MULTIPLIER);
-    } else {
-      // continue turning 
-      m_drive.arcadeDrive(0, m_speed);
-    }
+    SmartDashboard.putNumber("Gyro", getGyroAngleZ());
 
+    // restrict pid values
+    double pidVal = MathUtil.clamp(getPID(), -m_speed, m_speed);
+
+    // drive using pid
+    m_drive.arcadeDrive(0, pidVal);
+
+    // set pid tolerance to turning
+    m_controller.setTolerance(Constants.SPEEDTOLERANCE, Constants.VELOCITYTOLERANCE);
+
+  }
+
+  // return gyro value
+  public double getGyroAngleZ() {
+    return Math.abs(m_drive.getGyroAngleZ());
+  }
+
+  // return pid value
+  public double getPID() {
+    return m_controller.calculate(getGyroAngleZ(), m_degrees);
   }
 
   // Called once the command ends or is interrupted.
@@ -61,8 +78,8 @@ public class TurnDegreesGyro extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // if gyro is greater than degrees
-    return Math.abs(m_drive.getGyroAngleZ()) > m_degrees;
+    // if gyro is at set point
+    return m_controller.atSetpoint();
   }
 
 }

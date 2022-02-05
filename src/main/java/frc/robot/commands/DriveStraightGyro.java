@@ -9,12 +9,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 
-public class DriveStraight extends CommandBase {
+public class DriveStraightGyro extends CommandBase {
   private final Drivetrain m_drive;
   private final double m_speed;
   private final double m_distance;
   /** Creates a new DriveStraight. */
-  public DriveStraight(double speed, double distance, Drivetrain drive) {
+  public DriveStraightGyro(double speed, double distance, Drivetrain drive) {
     m_distance = distance;
     m_speed = speed;
     m_drive = drive;
