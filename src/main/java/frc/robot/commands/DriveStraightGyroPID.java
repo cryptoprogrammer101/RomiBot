@@ -4,39 +4,32 @@
 
 package frc.robot.commands;
 
-import frc.robot.Constants;
-import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
+import frc.robot.subsystems.Drivetrain;
 
-public class TurnDegreesGyroPID extends CommandBase {
+public class DriveStraightGyroPID extends CommandBase {
   private final Drivetrain m_drive;
-  private final double m_degrees;
   private final double m_speed;
+  private final double m_distance;
 
   private final PIDController m_controller = new PIDController(Constants.GAIN, 0, 0);
 
-  /**
-   * Creates a new TurnDegrees. This command will turn your robot for a desired rotation (in
-   * degrees) and rotational speed.
-   *
-   * @param speed The speed which the robot will drive. Negative is in reverse.
-   * @param degrees Degrees to turn. Leverages encoders to compare distance.
-   * @param drive The drive subsystem on which this command will run
-   */
-  public TurnDegreesGyroPID(double degrees, Drivetrain drive) {
-    m_degrees = degrees;
+  /** Creates a new DriveStraight. */
+  public DriveStraightGyroPID(double speed, double distance, Drivetrain drive) {
+    m_distance = distance;
+    m_speed = speed;
     m_drive = drive;
-    m_speed = Constants.TURNSPEED;
-    addRequirements(drive);
+
+    addRequirements(m_drive);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // Set motors to stop, read encoder values for starting point
     m_drive.arcadeDrive(0, 0);
     m_drive.resetEncoders();
     m_drive.resetGyro();
@@ -51,12 +44,11 @@ public class TurnDegreesGyroPID extends CommandBase {
     // restrict pid values
     double pidVal = MathUtil.clamp(getPID(), -m_speed, m_speed);
 
-    // drive using pid
-    m_drive.arcadeDrive(0, pidVal);
-
     // set pid tolerance to turning
     m_controller.setTolerance(Constants.SPEEDTOLERANCE, Constants.VELOCITYTOLERANCE);
 
+    m_drive.arcadeDrive(m_speed, pidVal);
+    
   }
 
   // return gyro value
@@ -66,7 +58,7 @@ public class TurnDegreesGyroPID extends CommandBase {
 
   // return pid value
   public double getPID() {
-    return m_controller.calculate(getGyroAngleZ(), m_degrees);
+    return m_controller.calculate(getGyroAngleZ(), 0);
   }
 
   // Called once the command ends or is interrupted.
@@ -79,8 +71,6 @@ public class TurnDegreesGyroPID extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // if gyro is at set point
-    return m_controller.atSetpoint();
+    return Math.abs(m_drive.getAverageDistanceInch()) >= m_distance;
   }
-
 }

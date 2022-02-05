@@ -22,7 +22,7 @@ public final class Constants {
     // turning sped
     public final static double TURNSPEED = 0.5;
     // set speed tolerance
-    public final static double SPEEDTOLERANCE = 1;
+    public final static double SPEEDTOLERANCE = 5;
     // set velocity tolerance
-    public final static double VELOCITYTOLERANCE = 5;
+    public final static double VELOCITYTOLERANCE = 10;
 }

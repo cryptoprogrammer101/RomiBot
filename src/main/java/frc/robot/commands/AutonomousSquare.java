@@ -19,35 +19,35 @@ public class AutonomousSquare extends SequentialCommandGroup {
    */
   public AutonomousSquare(Drivetrain drivetrain, OnBoardIO io) {
     addCommands(
-        new DriveStraightGyro(0.5, 5, drivetrain),
+        new DriveStraightGyroPID(0.5, 5, drivetrain),
         new TurnDegreesGyroPID(90, drivetrain),
-        new DriveStraightGyro(0.5, 5, drivetrain),
-        new TurnDegreesGyroPID(0.5, drivetrain),
-        new DriveStraightGyro(0.5, 5, drivetrain),
-        new TurnDegreesGyroPID(0.5, drivetrain),
-        new DriveStraightGyro(0.5, 5, drivetrain),
-        new TurnDegreesGyroPID(0.5, drivetrain),
+        new DriveStraightGyroPID(0.5, 5, drivetrain),
+        new TurnDegreesGyroPID(90, drivetrain),
+        new DriveStraightGyroPID(0.5, 5, drivetrain),
+        new TurnDegreesGyroPID(90, drivetrain),
+        new DriveStraightGyroPID(0.5, 5, drivetrain),
+        new TurnDegreesGyroPID(90, drivetrain),
         new InstantCommand(
           () -> {
             io.setRedLed(false);
             io.setYellowLed(false);
             io.setGreenLed(true);
           }, io),
-        new WaitCommand(3),
+        new WaitCommand(1),
         new InstantCommand(
           () -> {
             io.setGreenLed(false);
             io.setYellowLed(false);
             io.setRedLed(true);
           }, io),
-        new WaitCommand(3),
+        new WaitCommand(1),
         new InstantCommand(
           () -> {
             io.setGreenLed(false);
             io.setRedLed(false);
             io.setYellowLed(true);
           }, io),
-        new WaitCommand(3),
+        new WaitCommand(1),
         new InstantCommand(
           () -> {
             io.setGreenLed(false);
